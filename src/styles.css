@@ -43,16 +43,11 @@ body {
 }
 
 .logo-badge {
-  width: 56px;
-  height: 56px;
+  display: block;
+  width: 64px;
+  height: 64px;
   margin: 0 auto 12px;
   border-radius: 16px;
-  background: var(--accent);
-  color: #06240f;
-  font-weight: 800;
-  font-size: 20px;
-  display: grid;
-  place-items: center;
 }
 
 .hero h1 {

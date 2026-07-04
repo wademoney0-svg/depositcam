@@ -143,7 +143,7 @@ function Home({
   return (
     <div className="screen">
       <header className="hero">
-        <div className="logo-badge">DC</div>
+        <img className="logo-badge" src="/icon.svg" alt="DepositCam logo" />
         <h1>DepositCam</h1>
         <p className="tagline">
           Timestamped photo evidence of your rental's condition, so your security deposit comes
