@@ -20,6 +20,7 @@ export async function generateReport(inspection: Inspection): Promise<void> {
   const created = new Date(inspection.createdAt)
   const typeLabel = inspection.type === 'move-in' ? 'Move-In' : 'Move-Out'
   const photoCount = inspection.rooms.reduce((n, r) => n + r.photos.length, 0)
+  const doneCount = inspection.rooms.filter((r) => r.done).length
 
   // Cover page
   doc.setFillColor(15, 17, 21)
@@ -48,7 +49,7 @@ export async function generateReport(inspection: Inspection): Promise<void> {
   row('Landlord / Mgmt', inspection.landlord)
   row('Inspection type', typeLabel)
   row('Date recorded', created.toLocaleString())
-  row('Rooms documented', String(inspection.rooms.length))
+  row('Rooms documented', String(doneCount))
   row('Photos', String(photoCount))
 
   y += 6
