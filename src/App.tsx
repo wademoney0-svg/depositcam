@@ -38,6 +38,7 @@ export default function App() {
   const [busy, setBusy] = useState(false)
   const [showPaywall, setShowPaywall] = useState(false)
   const [showEmailNudge, setShowEmailNudge] = useState(false)
+  const [reportFile, setReportFile] = useState<File | null>(null)
 
   useEffect(() => {
     listInspections().then((list) => {
@@ -52,8 +53,9 @@ export default function App() {
       setView({ name: 'inspection', id: inspection.id })
       setBusy(true)
       generateReport(inspection)
-        .then(() => {
+        .then((file) => {
           track('report-exported')
+          setReportFile(file)
           setShowEmailNudge(true)
         })
         .finally(() => setBusy(false))
@@ -105,6 +107,7 @@ export default function App() {
         onClosePaywall={() => setShowPaywall(false)}
         showEmailNudge={showEmailNudge}
         onCloseEmailNudge={() => setShowEmailNudge(false)}
+        reportFile={reportFile}
         onExport={async () => {
           track('export-clicked')
           if (paywallEnabled() && !isUnlocked()) {
@@ -115,8 +118,9 @@ export default function App() {
           }
           setBusy(true)
           try {
-            await generateReport(current)
+            const file = await generateReport(current)
             track('report-exported')
+            setReportFile(file)
             setShowEmailNudge(true)
           } finally {
             setBusy(false)
@@ -307,6 +311,7 @@ function InspectionDetail({
   onClosePaywall,
   showEmailNudge,
   onCloseEmailNudge,
+  reportFile,
   onBack,
   onOpenRoom,
   onAddRoom,
@@ -319,6 +324,7 @@ function InspectionDetail({
   onClosePaywall: () => void
   showEmailNudge: boolean
   onCloseEmailNudge: () => void
+  reportFile: File | null
   onBack: () => void
   onOpenRoom: (roomId: string) => void
   onAddRoom: (name: string) => void
@@ -379,16 +385,20 @@ function InspectionDetail({
       </div>
 
       {showPaywall && <PaywallModal onClose={onClosePaywall} />}
-      {showEmailNudge && <EmailNudgeModal inspection={inspection} onClose={onCloseEmailNudge} />}
+      {showEmailNudge && (
+        <EmailNudgeModal inspection={inspection} reportFile={reportFile} onClose={onCloseEmailNudge} />
+      )}
     </div>
   )
 }
 
 function EmailNudgeModal({
   inspection,
+  reportFile,
   onClose,
 }: {
   inspection: Inspection
+  reportFile: File | null
   onClose: () => void
 }) {
   const typeLabel = inspection.type === 'move-in' ? 'Move-in' : 'Move-out'
@@ -401,6 +411,11 @@ function EmailNudgeModal({
     `Please keep this for your records.\n\n(Report attached — generated with DepositCam, depositcam.com)`
   const mailto = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
+  const canShareFile =
+    reportFile !== null &&
+    typeof navigator.canShare === 'function' &&
+    navigator.canShare({ files: [reportFile] })
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -409,12 +424,40 @@ function EmailNudgeModal({
           Now make it count: email it to your landlord today. Their inbox timestamp becomes
           independent proof of when this report existed — your strongest defense in a dispute.
         </p>
-        <p className="muted">
-          Attach the PDF that just downloaded, and send a copy to yourself too.
-        </p>
-        <a className="btn primary big" href={mailto} onClick={() => track('email-nudge-used')}>
-          Email it now
-        </a>
+        {canShareFile ? (
+          <>
+            <p className="muted">
+              The PDF gets attached for you — just pick your email app and send a copy to yourself
+              too.
+            </p>
+            <button
+              className="btn primary big"
+              onClick={async () => {
+                track('email-nudge-used')
+                try {
+                  await navigator.share({
+                    files: [reportFile],
+                    title: subject,
+                    text: body,
+                  })
+                } catch {
+                  // Renter dismissed the share sheet — nothing to do.
+                }
+              }}
+            >
+              Send it — PDF attached
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="muted">
+              Attach the PDF that just downloaded, and send a copy to yourself too.
+            </p>
+            <a className="btn primary big" href={mailto} onClick={() => track('email-nudge-used')}>
+              Email it now
+            </a>
+          </>
+        )}
         <button className="btn danger-link" onClick={onClose}>
           Maybe later
         </button>
