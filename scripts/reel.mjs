@@ -91,6 +91,12 @@ const REEL_SETUP = () => {
       width: 136px; height: 136px; margin-bottom: 24px; border-radius: 30px;
       box-shadow: 0 14px 44px rgba(0,0,0,.55);
     }
+    #reel-card .studio {
+      position: absolute; bottom: 70px; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: center; gap: 13px; opacity: .9;
+    }
+    #reel-card .studio img { width: 46px; height: 46px; border-radius: 12px; }
+    #reel-card .studio span { font-size: 23px; font-weight: 700; color: #cbd5e1; }
   `
   root.appendChild(style)
   const cap = document.createElement('div')
@@ -188,7 +194,8 @@ hideCap()
 await wait(300)
 
 card(
-  `<img class="appicon" src="/icon.svg" alt=""><h1>DepositCam</h1><p>Protect your deposit.<br>depositcam.com</p>`,
+  `<img class="appicon" src="/icon.svg" alt=""><h1>DepositCam</h1><p>Protect your deposit.<br>depositcam.com</p>` +
+    `<div class="studio"><img src="/wade-foundry-icon.png" alt=""><span>A Wade Foundry app</span></div>`,
 )
 await wait(2400)
 

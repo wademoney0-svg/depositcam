@@ -226,7 +226,9 @@ function Home({
         </section>
       )}
 
-      <footer className="studio-credit">A Wade Foundry app</footer>
+      <footer className="studio-credit">
+        <img src="/wade-foundry-lockup.png" alt="A Wade Foundry app" />
+      </footer>
     </div>
   )
 }
