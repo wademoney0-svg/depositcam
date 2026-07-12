@@ -15,7 +15,10 @@ function imageSize(dataUrl: string): Promise<{ w: number; h: number }> {
   })
 }
 
-export async function generateReport(inspection: Inspection): Promise<File> {
+export async function generateReport(
+  inspection: Inspection,
+  opts?: { save?: boolean },
+): Promise<File> {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' })
   const created = new Date(inspection.createdAt)
   const typeLabel = inspection.type === 'move-in' ? 'Move-In' : 'Move-Out'
@@ -125,8 +128,7 @@ export async function generateReport(inspection: Inspection): Promise<File> {
 
   const slug = inspection.address.trim().replace(/[^a-z0-9]+/gi, '-').toLowerCase() || 'report'
   const filename = `depositcam-${inspection.type}-${slug}.pdf`
-  doc.save(filename)
-  // Also hand the PDF back as a File so it can be attached to the native
-  // share sheet (email with the report already attached).
-  return new File([doc.output('blob')], filename, { type: 'application/pdf' })
+  const file = new File([doc.output('blob')], filename, { type: 'application/pdf' })
+  if (opts?.save !== false) doc.save(filename)
+  return file
 }

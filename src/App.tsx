@@ -8,19 +8,15 @@ import {
   STRIPE_PAYMENT_LINK,
   UNLOCK_PRICE,
   absorbPaymentRedirect,
+  clearAwaitingPayment,
+  isAwaitingPayment,
   isUnlocked,
+  markAwaitingPayment,
   paywallEnabled,
+  rememberPendingExport,
+  takePendingExport,
 } from './config'
 import { track } from './analytics'
-
-/** Remembers which walkthrough the renter was exporting when they hit the paywall. */
-const PENDING_EXPORT_KEY = 'dp_pending_export'
-
-const purchaseJustCompleted = absorbPaymentRedirect()
-if (purchaseJustCompleted) {
-  // Delay so the async-loaded analytics script has a chance to be ready.
-  setTimeout(() => track('purchase-completed'), 2000)
-}
 
 type View =
   | { name: 'home' }
@@ -39,27 +35,58 @@ export default function App() {
   const [showPaywall, setShowPaywall] = useState(false)
   const [showEmailNudge, setShowEmailNudge] = useState(false)
   const [reportFile, setReportFile] = useState<File | null>(null)
+  const resumeStarted = useRef(false)
+
+  async function resumePaidExport(list: Inspection[]) {
+    if (resumeStarted.current || !isUnlocked()) return
+    const pendingId = takePendingExport()
+    if (!pendingId) return
+    const inspection = list.find((i) => i.id === pendingId)
+    if (!inspection) return
+
+    resumeStarted.current = true
+    clearAwaitingPayment()
+    setShowPaywall(false)
+    setView({ name: 'inspection', id: inspection.id })
+    setBusy(true)
+    try {
+      // Let the page settle after returning from Stripe before building/saving the PDF.
+      await new Promise((r) => setTimeout(r, 600))
+      const file = await generateReport(inspection)
+      track('report-exported')
+      setReportFile(file)
+      setShowEmailNudge(true)
+    } finally {
+      setBusy(false)
+    }
+  }
 
   useEffect(() => {
-    listInspections().then((list) => {
-      setInspections(list)
-      if (!purchaseJustCompleted) return
-      // Resume the export the renter paid for: reopen their walkthrough,
-      // build the PDF right away and offer to email it.
-      const pendingId = localStorage.getItem(PENDING_EXPORT_KEY)
-      localStorage.removeItem(PENDING_EXPORT_KEY)
-      const inspection = list.find((i) => i.id === pendingId)
-      if (!inspection) return
-      setView({ name: 'inspection', id: inspection.id })
-      setBusy(true)
-      generateReport(inspection)
-        .then((file) => {
-          track('report-exported')
-          setReportFile(file)
-          setShowEmailNudge(true)
-        })
-        .finally(() => setBusy(false))
+    listInspections().then((loaded) => {
+      setInspections(loaded)
+      if (absorbPaymentRedirect()) {
+        setTimeout(() => track('purchase-completed'), 2000)
+        resumePaidExport(loaded)
+      } else if (isAwaitingPayment() && isUnlocked()) {
+        resumePaidExport(loaded)
+      }
     })
+
+    const onReturn = () => {
+      if (document.visibilityState !== 'visible') return
+      if (!isAwaitingPayment() || !isUnlocked()) return
+      listInspections().then((loaded) => {
+        setInspections(loaded)
+        resumePaidExport(loaded)
+      })
+    }
+
+    document.addEventListener('visibilitychange', onReturn)
+    window.addEventListener('focus', onReturn)
+    return () => {
+      document.removeEventListener('visibilitychange', onReturn)
+      window.removeEventListener('focus', onReturn)
+    }
   }, [])
 
   async function upsert(inspection: Inspection) {
@@ -112,7 +139,8 @@ export default function App() {
           track('export-clicked')
           if (paywallEnabled() && !isUnlocked()) {
             track('paywall-shown')
-            localStorage.setItem(PENDING_EXPORT_KEY, current.id)
+            rememberPendingExport(current.id)
+            markAwaitingPayment()
             setShowPaywall(true)
             return
           }
@@ -484,7 +512,13 @@ function PaywallModal({ onClose }: { onClose: () => void }) {
           <li>Unlimited exports on this device</li>
           <li>Send it to your landlord or small-claims court</li>
         </ul>
-        <a className="btn primary big" href={STRIPE_PAYMENT_LINK}>
+        <a
+          className="btn primary big"
+          href={STRIPE_PAYMENT_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => markAwaitingPayment()}
+        >
           Unlock for {UNLOCK_PRICE}
         </a>
         <button className="btn danger-link" onClick={onClose}>
