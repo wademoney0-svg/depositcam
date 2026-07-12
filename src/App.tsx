@@ -15,6 +15,8 @@ import {
   paywallEnabled,
   rememberPendingExport,
   takePendingExport,
+  wasStorageNoticeDismissed,
+  dismissStorageNotice,
 } from './config'
 import { track } from './analytics'
 
@@ -199,6 +201,8 @@ function Home({
   onNew: () => void
   onOpen: (id: string) => void
 }) {
+  const [showStorageNotice, setShowStorageNotice] = useState(() => !wasStorageNoticeDismissed())
+
   return (
     <div className="screen">
       <header className="hero">
@@ -257,6 +261,39 @@ function Home({
       <footer className="studio-credit">
         <img src="/wade-foundry-lockup.png" alt="A Wade Foundry app" />
       </footer>
+
+      {showStorageNotice && (
+        <StorageNoticeModal
+          onDismiss={() => {
+            dismissStorageNotice()
+            setShowStorageNotice(false)
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+function StorageNoticeModal({ onDismiss }: { onDismiss: () => void }) {
+  return (
+    <div className="modal-backdrop" onClick={onDismiss}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <h2>Your data stays on this device</h2>
+        <p className="muted">
+          Walkthroughs, photos, and your PDF unlock are saved in this browser — not in the cloud.
+        </p>
+        <p className="muted">
+          <strong>Private or incognito windows</strong> usually erase everything when you close
+          them.
+        </p>
+        <p className="muted">
+          <strong>Clearing browser history or site data</strong> will delete your walkthroughs and
+          unlock too. Export your PDF and keep a copy somewhere safe.
+        </p>
+        <button className="btn primary big" onClick={onDismiss}>
+          Got it
+        </button>
+      </div>
     </div>
   )
 }

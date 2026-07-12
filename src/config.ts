@@ -92,3 +92,13 @@ export function isAwaitingPayment(): boolean {
     return false
   }
 }
+
+const STORAGE_NOTICE_KEY = 'dp_storage_notice_dismissed'
+
+export function wasStorageNoticeDismissed(): boolean {
+  return storageGet(STORAGE_NOTICE_KEY) === '1'
+}
+
+export function dismissStorageNotice(): void {
+  storageSet(STORAGE_NOTICE_KEY, '1')
+}
