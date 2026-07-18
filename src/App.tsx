@@ -260,6 +260,9 @@ function Home({
 
       <footer className="studio-credit">
         <img src="/wade-foundry-lockup.png" alt="A Wade Foundry app" />
+        <a className="privacy-link" href="/privacy.html">
+          Privacy
+        </a>
       </footer>
 
       {showStorageNotice && (

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "play-assets": "node scripts/play-assets.mjs"
   },
   "dependencies": {
     "idb": "^8.0.3",
