@@ -2,30 +2,305 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0f1115" />
-    <meta name="description" content="Timestamped move-in/move-out photo evidence for getting your security deposit back." />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <meta
+      name="description"
+      content="DepositCam — timestamped rental photo evidence so you can get your deposit back. Coming soon on Google Play."
+    />
     <link rel="canonical" href="https://depositcam.com/" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://depositcam.com/" />
-    <meta property="og:title" content="DepositCam — protect your security deposit" />
-    <meta property="og:description" content="Photo-document your rental room by room. Every photo is stamped with the date, time and GPS location. Export a dispute-ready PDF your landlord can't argue with." />
+    <meta property="og:title" content="DepositCam — coming soon on Google Play" />
+    <meta
+      property="og:description"
+      content="Prove your rental’s condition with GPS-stamped photos and a dispute-ready PDF."
+    />
     <meta property="og:image" content="https://depositcam.com/og.png" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="DepositCam — protect your security deposit" />
-    <meta name="twitter:description" content="Timestamped photo evidence of your rental's condition, so your deposit comes back to you." />
-    <title>DepositCam — protect your security deposit</title>
-    <script type="module" crossorigin src="/assets/index-DmeA5b4U.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BozJ4aNK.css">
+    <meta name="twitter:title" content="DepositCam — coming soon on Google Play" />
+    <meta
+      name="twitter:description"
+      content="Timestamped photo evidence of your rental’s condition, so your deposit comes back to you."
+    />
+    <title>DepositCam — coming soon on Google Play</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,500&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0f1115;
+        --bg-2: #141a14;
+        --surface: #181c23;
+        --border: #2c3442;
+        --text: #eef2f7;
+        --muted: #8b96a5;
+        --accent: #22c55e;
+        --accent-dim: rgba(34, 197, 94, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: 'DM Sans', system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      .page {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        isolation: isolate;
+      }
+
+      .page::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        background:
+          radial-gradient(ellipse 90% 60% at 50% -10%, rgba(34, 197, 94, 0.18), transparent 55%),
+          radial-gradient(ellipse 50% 40% at 100% 80%, rgba(34, 197, 94, 0.06), transparent 50%),
+          linear-gradient(180deg, #101612 0%, var(--bg) 45%, #0c0e11 100%);
+      }
+
+      .page::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        opacity: 0.35;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+        pointer-events: none;
+        mix-blend-mode: soft-light;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 24px;
+        max-width: 980px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .brand-mark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text);
+      }
+
+      .brand-mark img {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+      }
+
+      .brand-mark span {
+        font-weight: 800;
+        font-size: 1.05rem;
+        letter-spacing: -0.02em;
+      }
+
+      .nav-link {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.92rem;
+        font-weight: 500;
+      }
+
+      .nav-link:hover {
+        color: var(--text);
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 24px 24px 48px;
+        max-width: 720px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .logo {
+        width: 88px;
+        height: 88px;
+        border-radius: 22px;
+        margin-bottom: 22px;
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.25), 0 18px 50px rgba(0, 0, 0, 0.45);
+        animation: rise 0.9s ease both;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: clamp(2.4rem, 7vw, 3.6rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        animation: rise 0.9s ease 0.08s both;
+      }
+
+      .tagline {
+        margin: 16px 0 0;
+        color: var(--muted);
+        font-size: clamp(1.05rem, 2.6vw, 1.2rem);
+        line-height: 1.55;
+        max-width: 28em;
+        animation: rise 0.9s ease 0.16s both;
+      }
+
+      .cta-row {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        animation: rise 0.9s ease 0.24s both;
+      }
+
+      .coming-soon {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 22px;
+        border-radius: 14px;
+        background: var(--accent-dim);
+        border: 1px solid rgba(34, 197, 94, 0.35);
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .coming-soon .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: pulse 1.8s ease-in-out infinite;
+      }
+
+      .hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+
+      footer {
+        padding: 20px 24px 28px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        color: var(--text);
+      }
+
+      footer .sep {
+        margin: 0 8px;
+        opacity: 0.5;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.45;
+          transform: scale(0.85);
+        }
+      }
+
+      @media (max-width: 480px) {
+        header {
+          padding: 16px 18px;
+        }
+        main {
+          padding: 12px 18px 40px;
+        }
+        .logo {
+          width: 72px;
+          height: 72px;
+          border-radius: 18px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script
-      data-goatcounter="https://depositcam.goatcounter.com/count"
-      async
-      src="https://gc.zgo.at/count.js"
-    ></script>
+    <div class="page">
+      <header>
+        <a class="brand-mark" href="/">
+          <img src="/icon-192.png" alt="" width="36" height="36" />
+          <span>DepositCam</span>
+        </a>
+        <a class="nav-link" href="/privacy.html">Privacy</a>
+      </header>
+
+      <main>
+        <img class="logo" src="/icon-512.png" alt="DepositCam" width="88" height="88" />
+        <h1>DepositCam</h1>
+        <p class="tagline">
+          Timestamped, GPS-stamped rental photos and a dispute-ready PDF — so your
+          security deposit comes back to you.
+        </p>
+        <div class="cta-row">
+          <div class="coming-soon" role="status">
+            <span class="dot" aria-hidden="true"></span>
+            Coming soon on Google Play
+          </div>
+          <p class="hint">Android app by Wade Foundry. Privacy-first — your photos stay on your device.</p>
+        </div>
+      </main>
+
+      <footer>
+        <span>© Wade Foundry</span>
+        <span class="sep">·</span>
+        <a href="/privacy.html">Privacy</a>
+      </footer>
+    </div>
   </body>
 </html>
