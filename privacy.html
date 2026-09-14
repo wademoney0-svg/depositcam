@@ -51,7 +51,7 @@
     <main>
       <a class="back" href="/">← DepositCam</a>
       <h1>Privacy Policy</h1>
-      <p class="meta">Last updated: August 17, 2026 · DepositCam by Wade Foundry</p>
+      <p class="meta">Last updated: September 14, 2026 · DepositCam by Wade Foundry</p>
 
       <p>
         DepositCam (“the App”) is an Android app that helps renters document the
@@ -61,8 +61,8 @@
 
       <h2 id="delete">Delete your data</h2>
       <p>
-        DepositCam does not store your walkthroughs or photos on Wade Foundry servers.
-        All of that data stays on your device. To delete it:
+        <strong>On your device:</strong> Walkthroughs and photos stay on your phone by
+        default. To delete them:
       </p>
       <ul>
         <li>
@@ -75,21 +75,37 @@
       </ul>
       <p>
         Either action removes walkthroughs, photos, captions, notes, and the local
-        unlock flag for that install. We cannot delete data from your device remotely
-        because we never receive a copy. Google Play purchase records remain with Google
-        under Google’s policies; you can manage Play purchases in your Google account.
+        unlock flag for that install.
+      </p>
+      <p>
+        <strong>Optional cloud account:</strong> If you signed in and saved PDFs to
+        DepositCam Cloud, open the App → <strong>Account → Delete account &amp; cloud
+        data</strong>. That removes your cloud PDFs, account profile, and signs you out.
+        Google Play purchase and subscription records remain with Google under Google’s
+        policies; manage or cancel subscriptions in your Google account / Play
+        subscriptions page.
       </p>
 
       <h2>Data stored on your device</h2>
       <p>
         Walkthroughs, photos, captions, notes, and your one-time PDF unlock status are
-        saved <strong>only on your device</strong>. We do not host your photos or
-        walkthroughs on Wade Foundry servers.
+        saved <strong>on your device</strong>. We do not host your raw photo library on
+        Wade Foundry servers.
       </p>
       <ul>
         <li>Uninstalling the App removes walkthroughs, photos, and unlock status stored in that install.</li>
         <li>We cannot restore data that was only stored on your device.</li>
       </ul>
+
+      <h2>Optional account and cloud PDFs</h2>
+      <p>
+        An account is <strong>not required</strong> for core DepositCam features.
+        If you choose DepositCam Cloud (a Google Play subscription), you may sign in
+        with email magic link or Google. We store your account email and, when you
+        explicitly save a report, the exported <strong>PDF only</strong> in private
+        cloud storage so you can re-download it. We do not upload your full walkthrough
+        photo libraries.
+      </p>
 
       <h2>Camera and location</h2>
       <p>
@@ -101,11 +117,13 @@
 
       <h2>Payments</h2>
       <p>
-        Optional PDF export unlock is a one-time purchase processed by
+        Optional PDF export unlock is a <strong>one-time</strong> purchase processed by
         <a href="https://payments.google.com/payments/apis-secure/u/0/get_legal_document?ldo=0&ldt=privacynotice" rel="noopener noreferrer">Google Play Billing</a>.
-        Google handles your payment method. We do not receive or store your full card
-        number. After a successful purchase (or restore), the App stores an unlock flag
-        on your device so you can export again on that install without paying twice.
+        Optional DepositCam Cloud is a <strong>monthly or yearly subscription</strong>,
+        also billed through Google Play. Google handles your payment method. We do not
+        receive or store your full card number. After a successful one-time purchase
+        (or restore), the App stores an unlock flag on your device. Cloud entitlement
+        is tied to your signed-in account after Play verifies the subscription.
       </p>
 
       <h2>Analytics</h2>
@@ -116,7 +134,8 @@
 
       <h2>Third-party services</h2>
       <ul>
-        <li>App distribution and in-app purchases: Google Play</li>
+        <li>App distribution and in-app purchases / subscriptions: Google Play</li>
+        <li>Optional account auth and private PDF storage: Supabase (on our behalf)</li>
         <li>This privacy policy page is hosted as a static page so Google Play can link to it</li>
       </ul>
       <p>Google processes payment data under Google’s own privacy policies.</p>
