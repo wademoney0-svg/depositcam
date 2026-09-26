@@ -6,25 +6,25 @@
     <meta name="theme-color" content="#0f1115" />
     <meta
       name="description"
-      content="DepositCam — timestamped rental photo evidence so you can get your deposit back. Coming soon on Google Play."
+      content="DepositCam — timestamped rental photo evidence so you can get your deposit back. Get it on Google Play."
     />
     <link rel="canonical" href="https://depositcam.com/" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://depositcam.com/" />
-    <meta property="og:title" content="DepositCam — coming soon on Google Play" />
+    <meta property="og:title" content="DepositCam — on Google Play" />
     <meta
       property="og:description"
       content="Prove your rental’s condition with GPS-stamped photos and a dispute-ready PDF."
     />
     <meta property="og:image" content="https://depositcam.com/og.png" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="DepositCam — coming soon on Google Play" />
+    <meta name="twitter:title" content="DepositCam — on Google Play" />
     <meta
       name="twitter:description"
       content="Timestamped photo evidence of your rental’s condition, so your deposit comes back to you."
     />
-    <title>DepositCam — coming soon on Google Play</title>
+    <title>DepositCam — on Google Play</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -183,25 +183,21 @@
         animation: rise 0.9s ease 0.24s both;
       }
 
-      .coming-soon {
+      .play-link {
         display: inline-flex;
         align-items: center;
         gap: 10px;
         padding: 14px 22px;
         border-radius: 14px;
-        background: var(--accent-dim);
-        border: 1px solid rgba(34, 197, 94, 0.35);
-        color: var(--accent);
-        font-weight: 700;
+        background: var(--accent);
+        color: #04140a;
+        font-weight: 800;
         font-size: 1rem;
+        text-decoration: none;
       }
 
-      .coming-soon .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--accent);
-        animation: pulse 1.8s ease-in-out infinite;
+      .play-link:hover {
+        filter: brightness(1.08);
       }
 
       .hint {
@@ -243,18 +239,6 @@
         }
       }
 
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 0.45;
-          transform: scale(0.85);
-        }
-      }
-
       @media (max-width: 480px) {
         header {
           padding: 16px 18px;
@@ -288,10 +272,10 @@
           security deposit comes back to you.
         </p>
         <div class="cta-row">
-          <div class="coming-soon" role="status">
-            <span class="dot" aria-hidden="true"></span>
-            Coming soon on Google Play
-          </div>
+          <a
+            class="play-link"
+            href="https://play.google.com/store/apps/details?id=com.wadefoundrydepositcam"
+          >Get it on Google Play</a>
           <p class="hint">Android app by Wade Foundry. Photos stay on your device unless you opt in to Cloud backup.</p>
         </div>
       </main>
