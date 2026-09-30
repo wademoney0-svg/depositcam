@@ -138,10 +138,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         text-align: center;
-        padding: 24px 24px 48px;
-        max-width: 720px;
+        padding: 12px 24px 56px;
+        max-width: 980px;
         margin: 0 auto;
         width: 100%;
       }
@@ -205,6 +205,64 @@
         color: var(--muted);
         font-size: 0.92rem;
         line-height: 1.45;
+        max-width: 28em;
+      }
+
+      .steps {
+        width: 100%;
+        margin-top: 64px;
+      }
+
+      .steps h2 {
+        margin: 0;
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: clamp(1.6rem, 4vw, 2rem);
+        font-weight: 650;
+        letter-spacing: -0.03em;
+      }
+
+      .steps ol {
+        list-style: none;
+        padding: 0;
+        margin: 28px 0 0;
+        display: grid;
+        gap: 36px;
+      }
+
+      .steps li {
+        margin: 0;
+      }
+
+      .steps img {
+        width: min(100%, 260px);
+        height: auto;
+        display: block;
+        margin: 0 auto 14px;
+        border-radius: 22px;
+        border: 1px solid var(--border);
+        background: #000;
+      }
+
+      .steps p {
+        margin: 0 auto;
+        max-width: 26em;
+        color: var(--muted);
+        font-size: 0.98rem;
+        line-height: 1.5;
+      }
+
+      .steps strong {
+        display: block;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+
+      @media (min-width: 860px) {
+        .steps ol {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 22px;
+          align-items: start;
+        }
       }
 
       footer {
@@ -278,6 +336,24 @@
           >Get it on Google Play</a>
           <p class="hint">Android app by Wade Foundry. Photos stay on your device unless you opt in to Cloud backup.</p>
         </div>
+
+        <section class="steps" aria-label="How DepositCam works">
+          <h2>How it works</h2>
+          <ol>
+            <li>
+              <img src="/shots/walkthrough.jpg" width="540" height="960" alt="New walkthrough screen with the property address and a Begin walkthrough button" />
+              <p><strong>Start a walkthrough.</strong> Enter the address and choose move-in or move-out.</p>
+            </li>
+            <li>
+              <img src="/shots/room.jpg" width="540" height="960" alt="Living room screen with a photo checklist and a photo stamped with the date and place" />
+              <p><strong>Photograph each room.</strong> The date, time, and place are stamped on the photo.</p>
+            </li>
+            <li>
+              <img src="/shots/pdf.jpg" width="540" height="960" alt="Condition report PDF showing the front of the home with the stamp on the photo" />
+              <p><strong>Export the PDF.</strong> Send the report to your landlord.</p>
+            </li>
+          </ol>
+        </section>
       </main>
 
       <footer>
